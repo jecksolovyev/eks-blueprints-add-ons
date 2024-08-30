@@ -714,7 +714,7 @@ serverFiles:
         - source_labels: [__address__, __meta_kubernetes_pod_label_app]
           action: replace
           regex: ([^:]+)(?::\d+)?;ftp
-          replacement: ${1}:21
+          replacement: ${1}:4443
           target_label: __address__
         - target_label: __metrics_path__
           replacement: /actuator/prometheus
