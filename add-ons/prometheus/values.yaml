@@ -689,7 +689,6 @@ serverFiles:
       - /etc/config/alerts
 
     scrape_configs:
-    scrape_configs:
       - job_name: whitedoc_metrics
         scrape_interval: 10s
         kubernetes_sd_configs:
@@ -711,30 +710,11 @@ serverFiles:
           regex: ([^:]+)(?::\d+)?;ofs-robot
           replacement: ${1}:8443
           target_label: __address__
-        - source_labels: [__address__, __meta_kubernetes_pod_label_app]
-          action: replace
-          regex: ([^:]+)(?::\d+)?;ftp
-          replacement: ${1}:4443
-          target_label: __address__
         - target_label: __metrics_path__
           replacement: /actuator/prometheus
         - source_labels: [__meta_kubernetes_pod_label_app]
           action: keep
-          regex: whitedoc|ofs-robot|ftp
-        metric_relabel_configs:
-        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
-          action: keep
-          regex: "true"
-        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
-          action: replace
-          target_label: __metrics_path__
-          regex: (.+)
-          replacement: $1
-        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_port]
-          action: replace
-          target_label: __address__
-          regex: (.+)
-          replacement: $1
+          regex: whitedoc|ofs-robot
       - job_name: prometheus
         static_configs:
           - targets:
