@@ -9,3 +9,24 @@ ingress-nginx:
         service.beta.kubernetes.io/aws-load-balancer-type: nlb
         service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
         service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
+    config:
+      log-format-escape-json: "true"
+      log-format-upstream: '{
+        "timestamp": "$time_iso8601",
+        "requestID": "$req_id",
+        "proxyUpstreamName": "$proxy_upstream_name",
+        "proxyAlternativeUpstreamName": "$proxy_alternative_upstream_name",
+        "upstreamStatus": "$upstream_status",
+        "upstreamAddr": "$upstream_addr",
+        "httpRequest":{
+          "requestMethod": "$request_method",
+          "requestUrl": "$host$request_uri",
+          "status": $status,
+          "requestSize": "$request_length",
+          "responseSize": "$upstream_response_length",
+          "userAgent": "$http_user_agent",
+          "remoteIp": "$remote_addr",
+          "referer": "$http_referer",
+          "latency_sec": "$upstream_response_time",
+          "protocol":"$server_protocol"
+        }}'
